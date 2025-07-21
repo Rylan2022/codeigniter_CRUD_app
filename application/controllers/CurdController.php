@@ -16,7 +16,7 @@ class CurdController extends CI_Controller
 
         $this->form_validation->set_error_delimiters('<div class="text-danger mt-1 mb-3">', '</div>');
 
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[20]');
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]');
         $this->form_validation->set_rules('confpass', 'Password Confirmation', 'trim|required|matches[password]');
@@ -41,6 +41,8 @@ class CurdController extends CI_Controller
             if ($this->upload->do_upload('image')) {
                 $uploadData = $this->upload->data();
                 $imageName = $uploadData['file_name'];
+
+
             } else {
                 echo $this->upload->display_errors();
                 return;
@@ -52,12 +54,19 @@ class CurdController extends CI_Controller
             // echo $imageName;
             $inserted = $this->UploadModel->insert_data($imageName);
             if ($inserted) {
-                $this->load->view('formsubmit');
-
+                redirect('CurdController/all_data');
             } else {
                 echo "Something went wrong. Please try again.";
             }
         }
+    }
+
+    public function all_data()
+    {
+        $this->load->model('UploadModel');
+
+        $data['arr'] = $this->UploadModel->all_data();
+        $this->load->view('all_data');
     }
 }
 ?>

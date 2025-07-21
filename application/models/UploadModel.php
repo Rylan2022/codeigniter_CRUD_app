@@ -18,8 +18,18 @@ class UploadModel extends CI_Model
 
         ];
         $q = $this->db->insert('userdata', $data);
-        if($q){
+        if ($q) {
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function all_data()
+    {
+        $q = $this->db->order_by('id', 'desc')->get('userdata');
+        if ($q->num_rows()) {
+            return $q->result();
         } else {
             return false;
         }
