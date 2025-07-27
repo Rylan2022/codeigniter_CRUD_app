@@ -66,7 +66,7 @@ class CurdController extends CI_Controller
         $this->load->model('UploadModel');
 
         $data['arr'] = $this->UploadModel->all_data();
-        $this->load->view('all_data');
+        $this->load->view('all_data', $data);
     }
 }
 ?>
